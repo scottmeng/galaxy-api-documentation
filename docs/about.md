@@ -1,6 +1,27 @@
-# Pyreneus ipsam altae corpora nostris protinus flumen
+# API Overview
 
-## Continet et miratur aequoris cicuta
+This describes the resources that make up the official galaxy API v1. If you have any problems or requests, please view our [support page](http://www.google.com).
+
+## Current version
+
+## Schema
+
+## Parameters
+
+## Client erros
+
+## HTTP redirects
+
+## HTTP verbs
+
+## Authentication
+
+## Pagination
+
+## Rate limiting
+
+## CORS
+
 
 Lorem markdownum aquis tumultus disque marmoreum condit marinas et ferro. Servat
 cum ergo regia molitor adfligi, de vos magica fabricator harenas, non

@@ -1,56 +1,109 @@
-# Pyreneus ipsam altae corpora nostris protinus flumen
+# Game
 
-## Continet et miratur aequoris cicuta
+## GET `/game/game-slug/detail`
 
-Lorem markdownum aquis tumultus disque marmoreum condit marinas et ferro. Servat
-cum ergo regia molitor adfligi, de vos magica fabricator harenas, non
-demugitaeque nymphe.
+	curl 'http://localhost:5000/game/mario-bros/detail'
 
-## Cerealia officium iamque de mihi aequalis repetitum
+Get details of a game.
 
-Rogavit nullis terunt parentem [easdem praecipue nivosos](http://tumblr.com/).
-Alterius te manu tibi orbe, tanto in et partu dies Achille, veri!
+	{
+		app_url: "http://mariobro.se",
+		artwork: { },
+		created: "2014-03-04T12:17:46.563Z",
+		developer: { },
+		icons: "128",
+		name: "Mario Bros",
+		screenshots: "yes",
+		status: "pending",
+		slug: "mario-bros",
+		videos: "yes",
+		id: "c1d61413-2b2a-4752-8519-24f6dc32782f"
+	}
 
-> Ut artisque capillos porrecta libro, necem, tibi condere cetera. Ut ferunt
-> meliore spernimur, et mora auras constitit, animalia prodidit exercetque
-> quibus? Numina iuvenes adludit.
+## GET `/featured`
 
-## Est usquam superorum silentia ferox
+	curl 'http://localhost:5000/featured'
 
-Medium cur permiscuit, An vota una mandat iterum *ad aequor* pudorque fulva.
-[Dabat non](http://landyachtz.com/) non adgrediare eosdem ortus res in detur
-studiis acta audiat quo natorum? Ab populo pedem, non, ab infelix dixit aliquid.
-Nec mihi telum, sub molibus erat vindice nempe hic, consequitur.
+Get a list of featured games.
 
-Similes iracundique Inachus Abas tremit paternum pigetque. Viseret iussos **ad**
-aquas! *Aut nec* spatium cannae cupiuntque alto. Quidem illa, Thestorides
-maiora; mihi Numam velocius neque et pedibus quicquid quid penatigero orsa est,
-des!
+## POST `/featured`
 
-## Oves medicamine considere illa unus est Insania
+	curl -X POST 'http://localhost:5000/featured' -d '_user=SSA-TOKEN&game=mario-bros&genres=["action"]'
 
-Deus sed umbras caede quem *vidit* parvus, precari sorores
-[velle](http://eelslap.com/), et. Fuisset caducum velint primoque, inde sit
-orantem matrum ut ensem. Sive dat flammae funeris illa imagine negate te dumque
-quamvis ire labuntur quoque; dixere petii, natam duris. Pontum comes.
+Add a new featured game.
 
-Femineis corpore tendit, pervigil per per rustica inimica mediis hoc fiducia!
-Peleus mutet obscurum cava, Est medio canet facit. Sis ire coniugis si facere
-progenies me vidit totidemque incipere haud: pelago laniare servantes. Honores
-quas, **quam patrium**. Sine rura ait; crater formatur potenti **dicta**: nec.
+## PUT `/featured`
 
-## Est in in verbis orant pulvere si
+	curl -X PUT 'http://localhost:5000/featured' -d '_user=SSA-TOKEN&game=mario-bros&genres=["simulation"]'
 
-Languor cingentibus *capiat secundas* avem constitit est; noxae unda inque
-incipere subruit est fatebar, rigidis sum *nervo*? Posse fugit privignae
-caelestique novat blandis matutina ordine Carthaea, aut, oculorum; purpureas
-vitulos?
+Change the genre of an existing featured game.
 
-Magnae ea laetus, nomina, corpora seductus stultae aevum. Esse iacent feci,
-saepe Exigit a vultus et turba est. Dux quam renasci pharetra. Ut ne abit
-Telephon ipse, opem capit novique transtulit. Cum manu volenti: tibi, sed
-aethera maeonis!
+## DEL `/featured`
 
-[Dabat non]: http://landyachtz.com/
-[easdem praecipue nivosos]: http://tumblr.com/
-[velle]: http://eelslap.com/
+	curl -X DELETE 'http://localhost:5000/featured' -d '_user=SSA-TOKEN&game=mario-bros'
+
+Remove an existing featured game.
+
+## GET `/genre`
+
+	curl 'http://localhost:5000/genre'
+
+Get the list of genres.
+
+	[
+		{
+			name: "Action",
+			slug: "action"
+		},
+		{
+			name: "Simulation",
+			slug: "simulation"
+		}
+	]
+
+## POST `/genre`
+
+	curl -X POST 'http://localhost:5000/genre' -d 'name=Action&slug=action'
+
+Add a new game genre.
+
+## DEL `/genre`
+
+	curl -X DELETE 'http://localhost:5000/genre' -d 'slug=action'
+
+Remove a game genre.
+
+## GET `/list`
+
+	curl 'http://localhost:5000/game/list?count=2'
+
+Get the list of games matching provided filters.
+
+	[
+		{
+			app_url: "http://halo.com",
+			created: "2014-02-25T08:10:28.617Z",
+			icons: "128",
+			name: "Halo 718",
+			screenshots: "yes",
+			slug: "halo-718"
+		},
+		{
+			app_url: "http://mariobro.se",
+			created: "2014-03-04T12:17:46.563Z",
+			icons: "128",
+			name: "Mario Bros",
+			screenshots: "yes",
+			slug: "mario-bros"
+		}
+	]
+
+## Game list
+
+## Game moderate
+
+## Game submission
+
+## Leaderboard
+
+# User

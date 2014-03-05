@@ -1,6 +1,6 @@
 # Game
 
-## GET `/game/game-slug/detail`
+## GET `/game/GAME-SLUG/detail`
 
 	curl 'http://localhost:5000/game/mario-bros/detail'
 
@@ -75,9 +75,19 @@ Remove a game genre.
 
 ## GET `/list`
 
-	curl 'http://localhost:5000/game/list?count=2'
+	curl 'http://localhost:5000/game/list'
+
+	curl 'http://localhost:5000/game/list?_user=00000000&count=10&status=approved'
 
 Get the list of games matching provided filters.
+
+> Optional parameters:
+
+> `_user`: user id or user slug (only needed for status filter)
+
+> `count`: maximum number of games to return
+
+> `status`: filter by status of game (`approved`, `pending`, `rejected`) 
 
 	[
 		{
@@ -98,12 +108,186 @@ Get the list of games matching provided filters.
 		}
 	]
 
-## Game list
+## GET `/game/GAME-SLUG/STATUS`
 
-## Game moderate
+	curl http://localhost:5000/game/mario-bros/approve'
 
-## Game submission
+	curl http://localhost:5000/game/mario-bros/reject'
 
-## Leaderboard
+Change a game to specified status.
 
-# User
+> `STATUS`: `approve`, `pending`, `reject`, `disable`, `delete`
+
+## POST `/game/submit`
+
+	curl -X POST 'http://localhost:5000/game/submit' -d 'name=Mario Bros&app_url=http://mariobro.se&icons=128&screenshots=yes'
+
+Submit a game.
+
+## GET `/game/GAME-SLUG/board`
+
+	curl 'http://localhost:5000/game/mario-bros/board'
+
+Return the list of available leaderboards for a game.
+
+	[
+		{
+			name: "Most Points",
+			slug: "most-points",
+			data: []
+		},
+		{
+			name: "Most Combo",
+			slug: "most-combo",
+			data: []
+		}
+	]
+
+## POST `/game/GAME-SLUG/board`
+
+	curl -X POST 'http://localhost:5000/game/mario-bros/board' -d 'name=Warios Smashed&slug=warios-smashed'
+
+Create a leaderboard for a game.
+
+## DEL `/game/GAME-SLUG/board`
+
+	curl -X DELETE 'http://localhost:5000/game/mario-bros/board' -d 'slug=warios-smashed'
+
+Delete a leaderboard from a game.
+
+## GET `/game/GAME-SLUG/board/BOARD-SLUG`
+
+	curl 'http://localhost:5000/game/mario-bros/board/warios-smashed'
+
+	curl 'http://localhost:5000/game/mario-bros/board/warios-smashed?sort=asc&friendsOnly=true&_user=SSA-TOKEN'
+
+Return the list of scores for a leaderboard of a game.
+
+> Optional parameters:
+
+> `sort`: the order in which the list of scores will be sorted. The default order is descending. (`asc`)
+
+> `friendsOnly`: only show scores of friends (`true`, `false`)
+
+> `_user`: user id or user slug
+
+> `page`: page index for pagination (integer)
+
+> `limit`: number of results per page for pagination (integer)
+
+## PUT `/user/profile`
+
+	curl -X PUT 'http://localhost:5000/user/profile?_user=ssatoken'
+
+Update user profile.
+
+## POST `/user/purchase`
+
+	curl -X POST 'http://localhost:5000/user/purchase' -d '_user=jon-snow&game=mario-bros'
+
+Record user's game purchase.
+
+> Parameters:
+
+> `_user`: user id or username slug
+
+> `game`: game id or game slug
+
+## GET `/user/search`
+
+	curl 'http://localhost:5000/user/search?_user=SSA-TOKEN'
+
+	curl 'http://localhost:5000/user/search?_user=SSA-TOKEN?email=mario@bros.com'
+
+Search for users with email, id or username slug.
+
+> Optional parameters (at least one of them needs to be specified):
+
+> `email`: user email to search for
+
+> `id`: user id to search for
+
+> `devSlug`: developer/company slug to search for
+
+> `q`: email/user id/username to search for
+
+## GET `/user/friends`
+
+	curl 'http://localhost:5000/user/friends?_user=SSA-TOKEN'
+
+Return a list of user's friends.
+
+> Opetional parameters:
+
+> `only`: friend status (`online`, `played`, `playedOnline`, `playing`)
+
+> `game`: game id or game slug
+
+## POST `/user/friends/request`
+
+	curl -X POST 'http://localhost:5000/user/friends/request' -d '_user=SSA-TOKEN&recipient=UID'
+
+Send friend request to a specified user.
+
+> Parameter:
+
+> `recipient`: the user id of friend request recipient
+
+## GET `/user/friends/requests`
+
+	curl 'http://localhost:5000/user/friends/requests?_user=SSA_TOKEN'
+
+Return a list of friend requests for the user.
+
+## POST `/user/friends/ACTION`
+
+	curl -X POST 'http://localhost:5000/user/friends/accept' -d '_user=SSA-TOKEN&acceptee=UID'
+
+	curl -X POST 'http://localhost:5000/user/friends/ignore' -d '_user=SSA-TOKEN&acceptee=UID'
+
+Accept a friend request from a user.
+
+> `ACTION`: `accept`, `ignore`
+
+> Parameter:
+
+> `acceptee`: the user id of a user who sent a friend request to the user
+
+## POST `/user/friends/unfriend`
+
+	curl -X POST 'http://localhost:5000/user/friends/unfriend' -d '_user=SSA-TOKEN&exfriend=UID'
+
+Unfriend a friend.
+
+> Parameter:
+
+> `exfriend`: the user id of a user with whom the user wants to unfriend
+
+## POST `/user/acl`
+
+	curl -X POST 'http://localhost:5000/user/acl' -d '_user=SSA-TOKEN&id=1&dev=1&reviewer=1&admin=1'
+
+Update the permission of a user.
+
+> Parameters:
+
+> `_user`: user's SSA token __[required]__
+
+> `id`: user id to change permission for __[required]__
+
+> `dev`: whether or not user should have developer permission (`0`, `1`) __[required]__
+
+> `reviewer`: whether or not user should have reviewer permission (`0`, `1`) __[required]__
+
+> `admin`: whether or not user should have admin permission (`0`, `1`)
+
+## POST `/user/login`
+
+	curl -X POST 'http://localhost:5000/user/login' -d 'assertion=&audience'
+
+Sign in via Persona.
+
+> Parameter:
+
+> `assertion`: persona assertion
+	
